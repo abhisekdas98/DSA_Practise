@@ -50,6 +50,8 @@ Approach:Take two dummy array one of size of row and other of size of
 column.Now traverse through the array.If matrix[i][j]==0 then set dummy1[i]=0(for row) and
 dummy2[j]=0(for column).Now traverse through the array again
 and if dummy1[i]==0  || dummy2[j]==0 then arr[i][j]=0,else continue.
+Time Complexity: O(N*M + N*M)
+Space Complexity: O(N)
      */
     static void setZeroes(int [][] matrix) {
         int rows = matrix.length, cols = matrix[0].length;
@@ -72,6 +74,36 @@ and if dummy1[i]==0  || dummy2[j]==0 then arr[i][j]=0,else continue.
                     matrix[i][j] = 0;
                 }
             }
+        }
+    }
+
+/*
+  Approach:Instead of taking two separate dummy array,take first row and column of the matrix
+   as the array for checking whether the particular column or row has the value 0 or not.Since
+   matrix[0][0] are overlapping.Therefore take separate variable col0(say) to check if the 0th
+   column has 0 or not and use matrix[0][0] to check if the 0th row has 0 or not.Now traverse
+   from last element to the first element and check if matrix[i][0]==0 || matrix[0][j]==0 and
+   if true set matrix[i][j]=0,else continue.
+
+Time Complexity: O(N*M + N*M)
+Space Complexity: O(N)
+ */
+
+    static void setZeroesOptimized(int[][] matrix) {
+        int col0 = 1, rows = matrix.length, cols = matrix[0].length;
+
+        for (int i = 0; i < rows; i++) {
+            if (matrix[i][0] == 0) col0 = 0;
+            for (int j = 1; j < cols; j++)
+                if (matrix[i][j] == 0)
+                    matrix[i][0] = matrix[0][j] = 0;
+        }
+
+        for (int i = rows - 1; i >= 0; i--) {
+            for (int j = cols - 1; j >= 1; j--)
+                if (matrix[i][0] == 0 || matrix[0][j] == 0)
+                    matrix[i][j] = 0;
+            if (col0 == 0) matrix[i][0] = 0;
         }
     }
 }
